@@ -68,7 +68,7 @@ def ask_openai(card: dict[str, Any], system_prompt: str) -> dict[str, Any]:
 
     payload = {
         "model": MODEL,
-        "max_tokens": 1200,
+        "max_completion_tokens": 1200,
         "messages": [
             {"role": "system", "content": system_prompt},
             {
