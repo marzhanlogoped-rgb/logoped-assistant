@@ -50,7 +50,7 @@ Settings -> Environment Variables
 
 ```text
 OPENAI_API_KEY=sk-...
-OPENAI_MODEL=gpt-4o
+OPENAI_MODEL=gpt-5.4
 ```
 
 После добавления переменных нажмите:

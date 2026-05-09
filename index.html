@@ -94,8 +94,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
   <aside class="sidebar">
     <div class="sidebar-title" id="cardsCount">Карточкалар</div>
     <div class="section-tabs">
-      <button class="section-tab active" onclick="setSection('language',this)">Тілдік бөлім</button>
-      <button class="section-tab" onclick="setSection('communicative',this)">Коммуникативтік бөлім</button>
+      <button class="section-tab active" onclick="setSection('communicative',this)">Коммуникативтік бөлім</button>
+      <button class="section-tab" onclick="setSection('language',this)">Тілдік бөлім</button>
     </div>
     <div class="type-list" id="typeList"></div>
     <div class="img-grid" id="imgGrid"></div>
@@ -186,7 +186,7 @@ JSON ғана қайтар:
 const grid = document.getElementById('imgGrid');
 const typeList = document.getElementById('typeList');
 let selectedId = null;
-let activeSection = 'language';
+let activeSection = 'communicative';
 let activeType = 'all';
 let isLoading = false;
 let rewardIdx = 0;

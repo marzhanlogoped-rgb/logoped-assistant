@@ -17,7 +17,7 @@
 3. GitHub репозиторийін қосыңыз.
 4. `Settings -> Environment Variables` бөліміне мыналарды қосыңыз:
    - `OPENAI_API_KEY` - клиенттің OpenAI API кілті.
-   - `OPENAI_MODEL` - мысалы, `gpt-4o`.
+   - `OPENAI_MODEL` - мысалы, `gpt-5.4`.
 5. `Deploy` басыңыз.
 
 `.env` файлын GitHub-қа жүктемеңіз. Ол `.gitignore` ішінде жабылған.
