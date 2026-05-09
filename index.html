@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="kk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Логопедке арналған ЖИ ассистент</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Rubik:wght@400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --cream:#FDF8F2;--warm:#FFFCF8;--text:#2D2318;--muted:#8A7A6A;
+  --accent:#E8613C;--accent-l:#FFF0EB;--blue:#185FA5;--blue-l:#E6F1FB;
+  --green:#3B6D11;--green-l:#EAF3DE;--gold:#8A5B00;--gold-l:#FFF3C4;
+  --border:#EDE0D0;--radius:14px;--radius-sm:8px;
+}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);min-height:100vh}
+.header{background:var(--warm);border-bottom:1px solid var(--border);padding:.875rem 1.5rem;display:flex;align-items:center;gap:.875rem;position:sticky;top:0;z-index:100}
+.logo{width:38px;height:38px;background:var(--accent);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.header h1{font-family:'Rubik',sans-serif;font-size:16px;font-weight:600}
+.header p{font-size:11px;color:var(--muted)}
+.header-actions{margin-left:auto;display:flex;gap:.5rem;align-items:center}
+.layout{display:flex;height:calc(100vh - 67px)}
+.sidebar{width:330px;flex-shrink:0;background:var(--warm);border-right:1px solid var(--border);overflow-y:auto;padding:.875rem}
+.sidebar-title{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.625rem;padding:0 .25rem}
+.section-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:.75rem}
+.section-tab,.type-btn{padding:.5rem .6rem;border-radius:20px;border:1.5px solid var(--border);background:transparent;font-size:12px;font-family:'Nunito',sans-serif;cursor:pointer;color:var(--muted);transition:all .15s;font-weight:700}
+.section-tab.active{border-color:var(--accent);background:var(--accent-l);color:var(--accent)}
+.type-list{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
+.type-btn{font-size:11px;padding:.35rem .55rem;font-weight:600}
+.type-btn.active{border-color:var(--blue);background:var(--blue-l);color:var(--blue)}
+.img-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.img-card{border:2px solid transparent;border-radius:var(--radius-sm);overflow:hidden;cursor:pointer;transition:all .2s;background:var(--border);position:relative}
+.img-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.img-card.active{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-l)}
+.img-card img{width:100%;height:96px;object-fit:cover;display:block;background:var(--cream)}
+.card-label{font-size:10px;padding:4px 5px;background:rgba(255,255,255,.95);color:var(--text);line-height:1.3;border-top:1px solid var(--border)}
+.type-badge{position:absolute;top:3px;right:3px;font-size:9px;font-weight:700;padding:2px 5px;border-radius:4px;letter-spacing:.04em}
+.badge-language{background:var(--green-l);color:var(--green)}
+.badge-comm{background:var(--blue-l);color:var(--blue)}
+.badge-type{background:var(--gold-l);color:var(--gold)}
+.main-panel{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:1rem}
+.empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:.875rem;color:var(--muted)}
+.empty-icon{font-size:44px}.empty-state h2{font-size:17px;color:var(--text)}.empty-state p{font-size:13px;max-width:320px;line-height:1.6}
+.sel-wrap{background:var(--warm);border:1px solid var(--border);border-radius:var(--radius);padding:1rem;display:flex;gap:1rem;align-items:flex-start}
+.sel-wrap img{width:180px;height:140px;object-fit:contain;border-radius:var(--radius-sm);background:var(--cream);flex-shrink:0;cursor:zoom-in}
+.sel-meta h2{font-size:16px;font-weight:700;margin-bottom:.3rem}.sel-meta p{font-size:12px;color:var(--muted);line-height:1.5}
+.meta-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:.55rem}.meta-chip{font-size:10px;font-weight:700;padding:3px 7px;border-radius:999px;background:var(--cream);border:1px solid var(--border);color:var(--muted)}
+.btn-row{display:flex;gap:7px;margin-top:.75rem;flex-wrap:wrap;align-items:center}
+.btn{padding:.45rem 1rem;border-radius:20px;font-size:13px;font-family:'Nunito',sans-serif;font-weight:700;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--accent);color:#fff}.btn-primary:hover{opacity:.9;transform:translateY(-1px)}.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border)}.btn-outline:hover{border-color:var(--text)}
+.btn-reward{background:linear-gradient(135deg,#FFD700,#FF8C00);color:#fff;font-size:14px;font-weight:700;padding:.45rem 1.1rem;border-radius:24px;border:none;cursor:pointer;box-shadow:0 3px 12px rgba(255,165,0,.35);transition:all .15s;font-family:'Nunito',sans-serif}
+.btn-reward:hover{transform:translateY(-2px) scale(1.03)}
+.block{background:var(--warm);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.block-header{padding:.625rem 1rem;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--border)}
+.block-badge{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.badge-l1{background:var(--blue-l);color:var(--blue)}.badge-l2{background:var(--green-l);color:var(--green)}
+.block-info h3{font-size:13px;font-weight:700}.block-info p{font-size:11px;color:var(--muted)}
+.q-list{padding:.75rem;display:flex;flex-direction:column;gap:.5rem}
+.q-item{background:var(--cream);border-radius:var(--radius-sm);padding:.625rem .75rem}
+.q-text{display:flex;gap:8px;align-items:flex-start;margin-bottom:.5rem}.q-num{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;background:var(--border);color:var(--muted)}
+.q-body{font-size:14px;line-height:1.5;font-weight:600}.hint-row{display:flex;gap:6px;flex-wrap:wrap}
+.hint-btn{padding:.28rem .75rem;border-radius:16px;border:1px solid var(--border);background:var(--warm);font-size:11px;font-family:'Nunito',sans-serif;cursor:pointer;color:var(--muted);transition:all .15s;font-weight:600}
+.hint-adult-btn{border-color:#C0DD97;color:var(--green)}.hint-child-btn{border-color:#B5D4F4;color:var(--blue)}
+.hint-box{margin-top:.5rem;padding:.5rem .75rem;border-radius:var(--radius-sm);font-size:12px;line-height:1.6;display:none}
+.hint-box.show{display:block}.hint-box-adult{background:var(--green-l);border-left:3px solid var(--green);color:#27500A}.hint-box-child{background:var(--blue-l);border-left:3px solid var(--blue);color:#0C447C}
+.instructor-box{background:var(--green-l);border:1px solid #C0DD97;border-radius:var(--radius);padding:1rem 1.25rem}
+.instructor-box .ins-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--green);margin-bottom:.4rem}.instructor-box p{font-size:14px;color:#27500A;line-height:1.6}
+.loading-wrap{display:flex;flex-direction:column;align-items:center;gap:.875rem;padding:2rem;color:var(--muted);font-size:13px}
+.spinner{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+#rewardOverlay{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.15);align-items:center;justify-content:center;cursor:pointer}
+#rewardOverlay.show{display:flex}.reward-card{background:#fff;border-radius:28px;padding:2.5rem 3.5rem;text-align:center;box-shadow:0 24px 60px rgba(0,0,0,.2);animation:rPop .4s cubic-bezier(.34,1.56,.64,1) both;max-width:380px;width:90%}
+@keyframes rPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}.r-emoji{font-size:66px;display:block;margin-bottom:.4rem}.r-text{font-family:'Rubik',sans-serif;font-size:38px;font-weight:700;background:linear-gradient(135deg,#E8613C,#FFB347,#4A9B7F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.1;margin-bottom:.3rem}.r-sub{font-size:16px;color:#888;margin-bottom:1.25rem}.r-tap{font-size:12px;color:#bbb;cursor:pointer;padding:.4rem 1.25rem;background:#f5f5f5;border-radius:20px;display:inline-block}
+.confetti-wrap{position:fixed;inset:0;pointer-events:none;z-index:9998;overflow:hidden}.confetti-piece{position:absolute;top:-20px;width:10px;height:10px;border-radius:2px;animation:cFall linear forwards}@keyframes cFall{0%{transform:translateY(0) rotate(0);opacity:1}90%{opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:0}}
+#zoomOverlay{display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.85);align-items:center;justify-content:center;cursor:zoom-out}#zoomOverlay img{max-width:90vw;max-height:90vh;object-fit:contain;border-radius:12px;box-shadow:0 24px 60px rgba(0,0,0,.5)}
+.api-bar{background:#1a1a18;padding:.5rem 1.25rem;display:flex;align-items:center;gap:.75rem;position:sticky;bottom:0;z-index:200}.api-bar span{font-size:10px;color:#777;text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}.api-bar input{flex:1;max-width:420px;padding:.3rem .7rem;border-radius:6px;border:1px solid #444;background:#2a2a28;color:#f0ede8;font-size:12px;font-family:monospace;outline:none}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+@media(max-width:760px){.layout{height:auto;min-height:calc(100vh - 67px);flex-direction:column}.sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);max-height:48vh}.header{padding:.75rem}.header h1{font-size:14px}.header-actions{margin-left:0}.sel-wrap{flex-direction:column}.api-bar{position:static;flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">🗣️</div>
+  <div>
+    <h1>Логопедке арналған ЖИ ассистент</h1>
+    <p>ОНР 1-2 · Тілдік бөлім және коммуникативтік бөлім</p>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-outline" onclick="playGreeting()" title="Сәлемдесу">▶ Сәлемдесу</button>
+  </div>
+</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sidebar-title" id="cardsCount">Карточкалар</div>
+    <div class="section-tabs">
+      <button class="section-tab active" onclick="setSection('language',this)">Тілдік бөлім</button>
+      <button class="section-tab" onclick="setSection('communicative',this)">Коммуникативтік бөлім</button>
+    </div>
+    <div class="type-list" id="typeList"></div>
+    <div class="img-grid" id="imgGrid"></div>
+  </aside>
+  <main class="main-panel" id="mainPanel">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-icon">👆</div>
+      <h2>Карточканы таңдаңыз</h2>
+      <p>Сол жақтан карточканы таңдаңыз. Ассистент ОНР 1 және ОНР 2 деңгейіне арналған табиғи сұрақтар дайындайды.</p>
+    </div>
+  </main>
+</div>
+
+<div id="zoomOverlay" onclick="closeZoom()">
+  <img id="zoomImg" src="" alt="">
+</div>
+
+<div id="rewardOverlay" onclick="hideReward()">
+  <div class="confetti-wrap" id="confettiWrap"></div>
+  <div class="reward-card" onclick="event.stopPropagation()">
+    <span class="r-emoji" id="rEmoji">⭐</span>
+    <div class="r-text" id="rText">ЖАРАЙСЫҢ!</div>
+    <div class="r-sub" id="rSub">Өте жақсы жауап!</div>
+    <div class="r-tap" onclick="hideReward()">Жабу үшін басыңыз</div>
+  </div>
+</div>
+
+<div class="api-bar">
+  <span>OpenAI</span>
+  <span>ЖИ сұрақтары қауіпсіз backend арқылы дайындалады. OpenAI кілті браузерде сақталмайды.</span>
+</div>
+
+<script>
+const CARD_TYPES = {
+  plot: {section:'language', title:'Сюжетті суреттер', file:'plot', count:10, ext:'jpeg'},
+  story: {section:'language', title:'Сюжеттік желілер', file:'story', count:10, ext:'jpeg'},
+  yes_no: {section:'communicative', title:'Иә/жоқ сұрақтары', file:'yes_no', count:5, ext:'jpeg'},
+  actions: {section:'communicative', title:'Кім не істеді?', file:'actions', count:16, ext:'jpeg'},
+  because: {section:'communicative', title:'Себеп-салдар', file:'because', count:3, ext:'jpeg'},
+  sentence: {section:'communicative', title:'Сөйлем құрау', file:'sentence', count:11, ext:'jpeg'},
+  option: {section:'communicative', title:'Дұрыс жауапты таңдау', file:'option', count:10, ext:'jpeg'},
+  request: {section:'communicative', title:'Өтініш білдіру', file:'request', count:5, ext:'jpeg'}
+};
+
+const SECTION_LABELS = {
+  language: 'Тілдік бөлім',
+  communicative: 'Коммуникативтік бөлім'
+};
+
+const AUDIO = {
+  greeting: 'audio/salem.ogg',
+  rewards: [
+    {emoji:'⭐',text:'ЖАРАЙСЫҢ!',sub:'Өте жақсы жауап!',src:'audio/zharajsyn.ogg'},
+    {emoji:'🌟',text:'КЕРЕМЕТ!',sub:'Керемет жұмыс!',src:'audio/keremet_zhumys.ogg'},
+    {emoji:'🎉',text:'ДҰРЫС!',sub:'Жауабың дұрыс!',src:'audio/durys.ogg'},
+    {emoji:'🏆',text:'ӨТЕ ЖАҚСЫ!',sub:'Осылай жалғастыр!',src:'audio/ote_zhaqsy.ogg'},
+    {emoji:'🚀',text:'ТАМАША!',sub:'Тамаша жауап!',src:'audio/tamasha.ogg'},
+    {emoji:'💛',text:'КЕРЕМЕТ!',sub:'Сен жақсы орындадың!',src:'audio/keremet.ogg'}
+  ]
+};
+
+const CONFETTI = ['#E8613C','#FFD700','#4A9B7F','#FF6B9D','#9B59B6','#3498DB'];
+const SYSTEM_PROMPT = `Сен 7-9 жастағы ОНР 1 және ОНР 2 деңгейіндегі балалармен жұмыс істейтін тәжірибелі логопедсің.
+
+Мақсат: берілген карточка бойынша қазақ тілінде табиғи, жылы, қысқа әрі балаға түсінікті сұрақтар дайындау.
+
+Табиғи тіл қағидалары:
+- ОНР 1 үшін қысқа реплика қолдан: "Кім?", "Не?", "Қайда?", "Көрсетші", "Иә ме, жоқ па?", "Не істеді?"
+- ОНР 2 үшін толықтау, бірақ ауыр емес сұрақ қолдан: "Суретте кім не істеп жатыр?", "Неге олай болды деп ойлайсың?", "Алдымен не болды, содан кейін ше?"
+- Қазақша сөйлем табиғи болсын. Орысша калька жасама.
+- Маңызды сөздік: снеговик = аққала, мальчик = бала, девочка = қыз, взрослый = ересек адам, бабушка = әже, дедушка = ата, посуда = ыдыс, игрушка = ойыншық.
+- Егер суретте аққала болса, "снеговик" немесе "қар адам" деп жазба, тек "аққала" деп жаз.
+- Балаға арналған көмек жауаптың басын берсін: "Ол ...", "Менің ойымша...", "Себебі...", "Маған ... берші".
+- Логопедке арналған көмек қысқа және іс жүзінде қолданылатын болсын.
+
+Карточка екі бөлімнің біріне жатады:
+- Тілдік бөлім: сюжет, оқиға, сурет бойынша әңгімелеу.
+- Коммуникативтік бөлім: иә/жоқ, әрекет, себеп-салдар, сөйлем құрау, дұрыс жауапты таңдау, өтініш білдіру.
+
+Әр карточка үшін міндетті түрде ОНР 1 және ОНР 2 деңгейін толтыр.
+JSON ғана қайтар:
+{
+  "instructor": "логопедке қысқа нұсқаулық",
+  "onr1": [{"q":"...","hint_adult":"...","hint_child":"..."}],
+  "onr2": [{"q":"...","hint_adult":"...","hint_child":"..."}]
+}`;
+
+const grid = document.getElementById('imgGrid');
+const typeList = document.getElementById('typeList');
+let selectedId = null;
+let activeSection = 'language';
+let activeType = 'all';
+let isLoading = false;
+let rewardIdx = 0;
+let rewardTimer = null;
+
+const CARDS = Object.entries(CARD_TYPES).flatMap(([type, meta]) => {
+  return Array.from({length: meta.count}, (_, i) => {
+    const number = i + 1;
+    return {
+      id: `${type}-${number}`,
+      type,
+      number,
+      section: meta.section,
+      sectionTitle: SECTION_LABELS[meta.section],
+      typeTitle: meta.title,
+      label: `${meta.title} ${number}`,
+      src: `cards/${meta.file}${number}.${meta.ext}`
+    };
+  });
+});
+
+function getVisibleCards() {
+  return CARDS.filter(card => card.section === activeSection && (activeType === 'all' || card.type === activeType));
+}
+
+function setSection(section, btn) {
+  activeSection = section;
+  activeType = 'all';
+  document.querySelectorAll('.section-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedId = null;
+  renderTypeTabs();
+  buildGrid();
+  renderEmpty();
+}
+
+function setType(type, btn) {
+  activeType = type;
+  document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  buildGrid();
+}
+
+function renderTypeTabs() {
+  const types = Object.entries(CARD_TYPES).filter(([, meta]) => meta.section === activeSection);
+  typeList.innerHTML = `<button class="type-btn active" onclick="setType('all',this)">Барлығы</button>` +
+    types.map(([key, meta]) => `<button class="type-btn" onclick="setType('${key}',this)">${meta.title}</button>`).join('');
+}
+
+function buildGrid() {
+  const visible = getVisibleCards();
+  grid.innerHTML = '';
+  visible.forEach(card => {
+    const el = document.createElement('div');
+    el.className = 'img-card';
+    el.dataset.id = card.id;
+    el.innerHTML = `<span class="type-badge ${card.section === 'language' ? 'badge-language' : 'badge-comm'}">${card.sectionTitle}</span><img src="${card.src}" loading="lazy" alt="${card.label}"><div class="card-label">${card.label}</div>`;
+    el.addEventListener('click', () => selectCard(card.id));
+    grid.appendChild(el);
+  });
+  document.getElementById('cardsCount').textContent = `Карточкалар (${visible.length}/${CARDS.length})`;
+}
+
+function selectCard(id) {
+  if(isLoading) return;
+  selectedId = id;
+  document.querySelectorAll('.img-card').forEach(c => c.classList.toggle('active', c.dataset.id === id));
+  renderSelected(getCard(id));
+}
+
+function getCard(id) {
+  return CARDS.find(card => card.id === id);
+}
+
+function renderEmpty() {
+  document.getElementById('mainPanel').innerHTML = `<div class="empty-state">
+    <div class="empty-icon">👆</div>
+    <h2>Карточканы таңдаңыз</h2>
+    <p>Сол жақтан карточканы таңдаңыз. Ассистент ОНР 1 және ОНР 2 деңгейіне арналған табиғи сұрақтар дайындайды.</p>
+  </div>`;
+}
+
+function renderSelected(card) {
+  const panel = document.getElementById('mainPanel');
+  panel.innerHTML = `
+    <div class="sel-wrap">
+      <div>
+        <img src="${card.src}" onclick="openZoom('${card.src}')" alt="${card.label}">
+        <div style="font-size:9px;color:var(--muted);text-align:center;margin-top:3px">Үлкейту үшін басыңыз</div>
+      </div>
+      <div class="sel-meta">
+        <h2>${card.label}</h2>
+        <p>${card.sectionTitle} · ${card.typeTitle}</p>
+        <div class="meta-row">
+          <span class="meta-chip">ОНР 1</span>
+          <span class="meta-chip">ОНР 2</span>
+          <span class="meta-chip">${card.typeTitle}</span>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="genBtn" onclick="generate('${card.id}')">Талдау</button>
+          <button class="btn btn-outline" onclick="selectCard('${card.id}')">Қайтадан</button>
+          <button class="btn-reward" onclick="showReward()">Жарайсың!</button>
+        </div>
+      </div>
+    </div>
+    <div id="resultArea"></div>
+  `;
+  generate(card.id);
+}
+
+async function generate(id) {
+  if(isLoading) return;
+  const card = getCard(id);
+  isLoading = true;
+  const btn = document.getElementById('genBtn');
+  if(btn) btn.disabled = true;
+  const area = document.getElementById('resultArea');
+  if(card.section === 'communicative') {
+    renderCommunicativeGuide(card);
+    isLoading = false;
+    if(btn) btn.disabled = false;
+    return;
+  }
+  area.innerHTML = `<div class="loading-wrap"><div class="spinner"></div><span>ЖИ карточканы талдап жатыр...</span></div>`;
+  try {
+    if(location.protocol === 'file:') {
+      area.innerHTML = `<div style="background:#FFF0EB;border:1px solid #F5C4B3;border-radius:8px;padding:1rem;font-size:13px;color:#993C1D;">Сұрақтарды дайындау үшін сайтты локал сервер арқылы ашыңыз: http://127.0.0.1:8000</div>`;
+      return;
+    }
+    const resp = await fetch('/api/generate', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        card,
+        systemPrompt: SYSTEM_PROMPT
+      })
+    });
+    const data = await resp.json();
+    if(!resp.ok) throw new Error(data.error || 'OpenAI API қатесі');
+    renderResult(data.result);
+  } catch(e) {
+    area.innerHTML = `<div style="background:#FFF0EB;border:1px solid #F5C4B3;border-radius:8px;padding:1rem;font-size:13px;color:#993C1D;">Қате: ${e.message}</div>`;
+  } finally {
+    isLoading = false;
+    const freshBtn = document.getElementById('genBtn');
+    if(freshBtn) freshBtn.disabled = false;
+  }
+}
+
+function imageToDataUrl(src) {
+  return fetch(src)
+    .then(resp => resp.blob())
+    .then(blob => new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    }));
+}
+
+function renderCommunicativeGuide(card) {
+  const area = document.getElementById('resultArea');
+  area.innerHTML = `<div class="instructor-box">
+    <div class="ins-label">Логопедке</div>
+    <p>Карточкадағы дайын сұрақтарды қолданыңыз. Балаға таңдауға, көрсетуге немесе қысқа жауап беруге мүмкіндік беріңіз. ОНР 1 деңгейінде бір сөзді, ым-ишараны немесе "иә/жоқ" жауабын қабылдаңыз. ОНР 2 деңгейінде жауапты 2-4 сөзден тұратын қысқа сөйлемге дейін кеңейтіңіз.</p>
+  </div>
+  <div class="block">
+    <div class="block-header">
+      <div class="block-badge badge-l1">1</div>
+      <div class="block-info"><h3>ОНР 1</h3><p>Көрсету, таңдау, бір сөзбен жауап беру</p></div>
+    </div>
+    <div class="q-list">
+      <div class="q-item"><div class="q-body">Карточкадағы сұрақты қысқа түрде қойыңыз. Қажет болса, екі нұсқа беріңіз немесе дұрыс суретті көрсетуді сұраңыз.</div></div>
+    </div>
+  </div>
+  <div class="block">
+    <div class="block-header">
+      <div class="block-badge badge-l2">2</div>
+      <div class="block-info"><h3>ОНР 2</h3><p>Қысқа фраза немесе сөйлеммен жауап беру</p></div>
+    </div>
+    <div class="q-list">
+      <div class="q-item"><div class="q-body">Баланың жауабын кеңейтіңіз: "Ол ...", "Мен ... сұраймын", "Себебі ...", "Маған ... берші" сияқты сөйлем бастауын ұсыныңыз.</div></div>
+    </div>
+  </div>`;
+}
+
+function normalizeResult(result) {
+  const out = result && typeof result === 'object' ? result : {};
+  out.instructor = out.instructor || 'Баланың жауабын қабылдап, қысқа фразадан толық сөйлемге дейін жұмсақ кеңейтіңіз.';
+  out.onr1 = Array.isArray(out.onr1) && out.onr1.length ? out.onr1 : [
+    {q:'Кім?', hint_adult:'Кейіпкерді көрсетуді сұраңыз.', hint_child:'Көрсетші. Кім?'},
+    {q:'Не істеді?', hint_adult:'Қимылды бір сөзбен айтқызуға көмектесіңіз.', hint_child:'Ол ...'},
+    {q:'Қайда?', hint_adult:'Орынды қолмен көрсетіп, қысқа жауапты қабылдаңыз.', hint_child:'Мұнда ма?'}
+  ];
+  out.onr2 = Array.isArray(out.onr2) && out.onr2.length ? out.onr2 : [
+    {q:'Суретте кім не істеп жатыр?', hint_adult:'Жауапты 2-4 сөзбен бастатыңыз.', hint_child:'Суретте ... ... істеп жатыр.'},
+    {q:'Неге олай болды деп ойлайсың?', hint_adult:'Бір себеп айтуға көмектесіңіз.', hint_child:'Себебі ...'},
+    {q:'Сөйлем құрап айтшы.', hint_adult:'Кім + не істеді үлгісін беріңіз.', hint_child:'... ... істеді.'}
+  ];
+  return out;
+}
+
+function renderResult(result) {
+  const r = normalizeResult(result);
+  const area = document.getElementById('resultArea');
+  area.innerHTML = `
+    <div class="instructor-box">
+      <div class="ins-label">Логопедке</div>
+      <p>${escapeHtml(r.instructor)}</p>
+    </div>
+    ${renderQuestionBlock('ОНР 1', 'Қысқа жауап, таңдау, көрсету', r.onr1, 'badge-l1')}
+    ${renderQuestionBlock('ОНР 2', 'Фраза, сөйлем, қысқа әңгіме', r.onr2, 'badge-l2')}
+  `;
+}
+
+function renderQuestionBlock(title, subtitle, items, badgeClass) {
+  return `<div class="block">
+    <div class="block-header">
+      <div class="block-badge ${badgeClass}">${title.replace('ОНР ','')}</div>
+      <div class="block-info"><h3>${title}</h3><p>${subtitle}</p></div>
+    </div>
+    <div class="q-list">${buildQuestions(items)}</div>
+  </div>`;
+}
+
+function buildQuestions(items) {
+  return items.map((it,i) => `<div class="q-item">
+    <div class="q-text"><span class="q-num">${i+1}</span><div class="q-body">${escapeHtml(it.q || '')}</div></div>
+    <div class="hint-row">
+      <button class="hint-btn hint-adult-btn" onclick="toggleHint(this,'adult-${i}')">Логопедке</button>
+      <button class="hint-btn hint-child-btn" onclick="toggleHint(this,'child-${i}')">Балаға</button>
+    </div>
+    <div class="hint-box hint-box-adult" data-key="adult-${i}">${escapeHtml(it.hint_adult || '')}</div>
+    <div class="hint-box hint-box-child" data-key="child-${i}">${escapeHtml(it.hint_child || '')}</div>
+  </div>`).join('');
+}
+
+function toggleHint(btn, key) {
+  const item = btn.closest('.q-item');
+  item.querySelectorAll('.hint-box').forEach(box => {
+    box.classList.toggle('show', box.dataset.key === key && !box.classList.contains('show'));
+  });
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[ch]));
+}
+
+function openZoom(src) {
+  document.getElementById('zoomImg').src = src;
+  document.getElementById('zoomOverlay').style.display = 'flex';
+}
+function closeZoom() {
+  document.getElementById('zoomOverlay').style.display = 'none';
+}
+
+function playAudio(src) {
+  if(!src) return;
+  const audio = new Audio(src);
+  audio.play().catch(()=>{});
+}
+function playGreeting() {
+  playAudio(AUDIO.greeting);
+}
+function showReward() {
+  const r = AUDIO.rewards[rewardIdx % AUDIO.rewards.length];
+  rewardIdx++;
+  document.getElementById('rEmoji').textContent = r.emoji;
+  document.getElementById('rText').textContent = r.text;
+  document.getElementById('rSub').textContent = r.sub;
+  document.getElementById('rewardOverlay').classList.add('show');
+  playAudio(r.src);
+  spawnConfetti();
+  clearTimeout(rewardTimer);
+  rewardTimer = setTimeout(hideReward, 4000);
+}
+function hideReward() {
+  document.getElementById('rewardOverlay').classList.remove('show');
+  document.getElementById('confettiWrap').innerHTML = '';
+  clearTimeout(rewardTimer);
+}
+function spawnConfetti() {
+  const wrap = document.getElementById('confettiWrap');
+  wrap.innerHTML = '';
+  for(let i=0;i<70;i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random()*100 + 'vw';
+    el.style.background = CONFETTI[Math.floor(Math.random()*CONFETTI.length)];
+    el.style.animationDuration = (1.4 + Math.random()*1.5) + 's';
+    el.style.animationDelay = Math.random()*.25 + 's';
+    wrap.appendChild(el);
+  }
+}
+
+renderTypeTabs();
+buildGrid();
+</script>
+</body>
+</html>
