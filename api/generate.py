@@ -13,7 +13,7 @@ from typing import Any
 
 
 ROOT = Path.cwd()
-MODEL = os.environ.get("OPENAI_MODEL", "gpt-4o")
+MODEL = os.environ.get("OPENAI_MODEL", "gpt-5.4")
 
 
 def write_json(handler: BaseHTTPRequestHandler, status: int, payload: dict[str, Any]) -> None:
