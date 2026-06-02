@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="kk">
 <head>
 <meta charset="UTF-8">
@@ -83,7 +83,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
   <div class="logo">🗣️</div>
   <div>
     <h1>Логопедке арналған ЖИ ассистент</h1>
-    <p>ОНР 1-2 · Тілдік бөлім және коммуникативтік бөлім</p>
+    <p>ЖСТД 1-2 · Тілдік бөлім және коммуникативтік бөлім</p>
   </div>
   <div class="header-actions">
     <button class="btn btn-outline" onclick="playGreeting()" title="Сәлемдесу">▶ Сәлемдесу</button>
@@ -104,7 +104,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
     <div class="empty-state" id="emptyState">
       <div class="empty-icon">👆</div>
       <h2>Карточканы таңдаңыз</h2>
-      <p>Сол жақтан карточканы таңдаңыз. Ассистент ОНР 1 және ОНР 2 деңгейіне арналған табиғи сұрақтар дайындайды.</p>
+      <p>Сол жақтан карточканы таңдаңыз. Ассистент ЖСТД 1 және ЖСТД 2 деңгейіне арналған табиғи сұрақтар дайындайды.</p>
     </div>
   </main>
 </div>
@@ -158,13 +158,13 @@ const AUDIO = {
 };
 
 const CONFETTI = ['#E8613C','#FFD700','#4A9B7F','#FF6B9D','#9B59B6','#3498DB'];
-const SYSTEM_PROMPT = `Сен 7-9 жастағы ОНР 1 және ОНР 2 деңгейіндегі балалармен жұмыс істейтін тәжірибелі логопедсің.
+const SYSTEM_PROMPT = `Сен 7-9 жастағы ЖСТД 1 және ЖСТД 2 деңгейіндегі балалармен жұмыс істейтін тәжірибелі логопедсің.
 
 Мақсат: берілген карточка бойынша қазақ тілінде табиғи, жылы, қысқа әрі балаға түсінікті сұрақтар дайындау.
 
 Табиғи тіл қағидалары:
-- ОНР 1 үшін қысқа реплика қолдан: "Кім?", "Не?", "Қайда?", "Көрсетші", "Иә ме, жоқ па?", "Не істеді?"
-- ОНР 2 үшін толықтау, бірақ ауыр емес сұрақ қолдан: "Суретте кім не істеп жатыр?", "Неге олай болды деп ойлайсың?", "Алдымен не болды, содан кейін ше?"
+- ЖСТД 1 үшін қысқа реплика қолдан: "Кім?", "Не?", "Қайда?", "Көрсетші", "Иә ме, жоқ па?", "Не істеді?"
+- ЖСТД 2 үшін толықтау, бірақ ауыр емес сұрақ қолдан: "Суретте кім не істеп жатыр?", "Неге олай болды деп ойлайсың?", "Алдымен не болды, содан кейін ше?"
 - Қазақша сөйлем табиғи болсын. Орысша калька жасама.
 - Маңызды сөздік: снеговик = аққала, мальчик = бала, девочка = қыз, взрослый = ересек адам, бабушка = әже, дедушка = ата, посуда = ыдыс, игрушка = ойыншық.
 - Егер суретте аққала болса, "снеговик" немесе "қар адам" деп жазба, тек "аққала" деп жаз.
@@ -175,7 +175,7 @@ const SYSTEM_PROMPT = `Сен 7-9 жастағы ОНР 1 және ОНР 2 де
 - Тілдік бөлім: сюжет, оқиға, сурет бойынша әңгімелеу.
 - Коммуникативтік бөлім: иә/жоқ, әрекет, себеп-салдар, сөйлем құрау, дұрыс жауапты таңдау, өтініш білдіру.
 
-Әр карточка үшін міндетті түрде ОНР 1 және ОНР 2 деңгейін толтыр.
+Әр карточка үшін міндетті түрде ЖСТД 1 және ЖСТД 2 деңгейін толтыр.
 JSON ғана қайтар:
 {
   "instructor": "логопедке қысқа нұсқаулық",
@@ -265,7 +265,7 @@ function renderEmpty() {
   document.getElementById('mainPanel').innerHTML = `<div class="empty-state">
     <div class="empty-icon">👆</div>
     <h2>Карточканы таңдаңыз</h2>
-    <p>Сол жақтан карточканы таңдаңыз. Ассистент ОНР 1 және ОНР 2 деңгейіне арналған табиғи сұрақтар дайындайды.</p>
+    <p>Сол жақтан карточканы таңдаңыз. Ассистент ЖСТД 1 және ЖСТД 2 деңгейіне арналған табиғи сұрақтар дайындайды.</p>
   </div>`;
 }
 
@@ -281,8 +281,8 @@ function renderSelected(card) {
         <h2>${card.label}</h2>
         <p>${card.sectionTitle} · ${card.typeTitle}</p>
         <div class="meta-row">
-          <span class="meta-chip">ОНР 1</span>
-          <span class="meta-chip">ОНР 2</span>
+          <span class="meta-chip">ЖСТД 1</span>
+          <span class="meta-chip">ЖСТД 2</span>
           <span class="meta-chip">${card.typeTitle}</span>
         </div>
         <div class="btn-row">
@@ -351,12 +351,12 @@ function renderCommunicativeGuide(card) {
   const area = document.getElementById('resultArea');
   area.innerHTML = `<div class="instructor-box">
     <div class="ins-label">Логопедке</div>
-    <p>Карточкадағы дайын сұрақтарды қолданыңыз. Балаға таңдауға, көрсетуге немесе қысқа жауап беруге мүмкіндік беріңіз. ОНР 1 деңгейінде бір сөзді, ым-ишараны немесе "иә/жоқ" жауабын қабылдаңыз. ОНР 2 деңгейінде жауапты 2-4 сөзден тұратын қысқа сөйлемге дейін кеңейтіңіз.</p>
+    <p>Карточкадағы дайын сұрақтарды қолданыңыз. Балаға таңдауға, көрсетуге немесе қысқа жауап беруге мүмкіндік беріңіз. ЖСТД 1 деңгейінде бір сөзді, ым-ишараны немесе "иә/жоқ" жауабын қабылдаңыз. ЖСТД 2 деңгейінде жауапты 2-4 сөзден тұратын қысқа сөйлемге дейін кеңейтіңіз.</p>
   </div>
   <div class="block">
     <div class="block-header">
       <div class="block-badge badge-l1">1</div>
-      <div class="block-info"><h3>ОНР 1</h3><p>Көрсету, таңдау, бір сөзбен жауап беру</p></div>
+      <div class="block-info"><h3>ЖСТД 1</h3><p>Көрсету, таңдау, бір сөзбен жауап беру</p></div>
     </div>
     <div class="q-list">
       <div class="q-item"><div class="q-body">Карточкадағы сұрақты қысқа түрде қойыңыз. Қажет болса, екі нұсқа беріңіз немесе дұрыс суретті көрсетуді сұраңыз.</div></div>
@@ -365,7 +365,7 @@ function renderCommunicativeGuide(card) {
   <div class="block">
     <div class="block-header">
       <div class="block-badge badge-l2">2</div>
-      <div class="block-info"><h3>ОНР 2</h3><p>Қысқа фраза немесе сөйлеммен жауап беру</p></div>
+      <div class="block-info"><h3>ЖСТД 2</h3><p>Қысқа фраза немесе сөйлеммен жауап беру</p></div>
     </div>
     <div class="q-list">
       <div class="q-item"><div class="q-body">Баланың жауабын кеңейтіңіз: "Ол ...", "Мен ... сұраймын", "Себебі ...", "Маған ... берші" сияқты сөйлем бастауын ұсыныңыз.</div></div>
@@ -397,15 +397,15 @@ function renderResult(result) {
       <div class="ins-label">Логопедке</div>
       <p>${escapeHtml(r.instructor)}</p>
     </div>
-    ${renderQuestionBlock('ОНР 1', 'Қысқа жауап, таңдау, көрсету', r.onr1, 'badge-l1')}
-    ${renderQuestionBlock('ОНР 2', 'Фраза, сөйлем, қысқа әңгіме', r.onr2, 'badge-l2')}
+    ${renderQuestionBlock('ЖСТД 1', 'Қысқа жауап, таңдау, көрсету', r.onr1, 'badge-l1')}
+    ${renderQuestionBlock('ЖСТД 2', 'Фраза, сөйлем, қысқа әңгіме', r.onr2, 'badge-l2')}
   `;
 }
 
 function renderQuestionBlock(title, subtitle, items, badgeClass) {
   return `<div class="block">
     <div class="block-header">
-      <div class="block-badge ${badgeClass}">${title.replace('ОНР ','')}</div>
+      <div class="block-badge ${badgeClass}">${title.replace('ЖСТД ','')}</div>
       <div class="block-info"><h3>${title}</h3><p>${subtitle}</p></div>
     </div>
     <div class="q-list">${buildQuestions(items)}</div>
