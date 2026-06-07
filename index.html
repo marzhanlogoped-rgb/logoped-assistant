@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Логопедке арналған ЖИ ассистент</title>
+<title>Логопедке арналған ЖИ-ассистенті</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700&family=Rubik:wght@400;500;600&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -82,8 +82,8 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 <div class="header">
   <div class="logo">🗣️</div>
   <div>
-    <h1>Логопедке арналған ЖИ ассистент</h1>
-    <p>ЖСТД 1-2 · Тілдік бөлім және коммуникативтік бөлім</p>
+    <h1>Логопедке арналған ЖИ-ассистенті</h1>
+    <p>ЖСТД 1-2 деңгейі · Коммуникативтік бөлім және тілдік бөлім</p>
   </div>
   <div class="header-actions">
     <button class="btn btn-outline" onclick="playGreeting()" title="Сәлемдесу">▶ Сәлемдесу</button>
@@ -131,7 +131,7 @@ body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--text);m
 <script>
 const CARD_TYPES = {
   plot: {section:'language', title:'Сюжетті суреттер', file:'plot', count:10, ext:'jpeg'},
-  story: {section:'language', title:'Сюжеттік желілер', file:'story', count:10, ext:'jpeg'},
+  story: {section:'language', title:'Сюжеттік суреттер сериясы', file:'story', count:10, ext:'jpeg'},
   yes_no: {section:'communicative', title:'Иә/жоқ сұрақтары', file:'yes_no', count:5, ext:'jpeg'},
   actions: {section:'communicative', title:'Кім не істеді?', file:'actions', count:16, ext:'jpeg'},
   because: {section:'communicative', title:'Себеп-салдар', file:'because', count:3, ext:'jpeg'},
@@ -172,8 +172,8 @@ const SYSTEM_PROMPT = `Сен 7-9 жастағы ЖСТД 1 және ЖСТД 2 
 - Логопедке арналған көмек қысқа және іс жүзінде қолданылатын болсын.
 
 Карточка екі бөлімнің біріне жатады:
-- Тілдік бөлім: сюжет, оқиға, сурет бойынша әңгімелеу.
 - Коммуникативтік бөлім: иә/жоқ, әрекет, себеп-салдар, сөйлем құрау, дұрыс жауапты таңдау, өтініш білдіру.
+- Тілдік бөлім: сюжет, оқиға, сурет бойынша әңгімелеу.
 
 Әр карточка үшін міндетті түрде ЖСТД 1 және ЖСТД 2 деңгейін толтыр.
 JSON ғана қайтар:
@@ -356,7 +356,7 @@ function renderCommunicativeGuide(card) {
   <div class="block">
     <div class="block-header">
       <div class="block-badge badge-l1">1</div>
-      <div class="block-info"><h3>ЖСТД 1</h3><p>Көрсету, таңдау, бір сөзбен жауап беру</p></div>
+      <div class="block-info"><h3>ЖСТД 1 деңгейі</h3><p>Көрсету, таңдау, бір сөзбен жауап беру</p></div>
     </div>
     <div class="q-list">
       <div class="q-item"><div class="q-body">Карточкадағы сұрақты қысқа түрде қойыңыз. Қажет болса, екі нұсқа беріңіз немесе дұрыс суретті көрсетуді сұраңыз.</div></div>
@@ -365,7 +365,7 @@ function renderCommunicativeGuide(card) {
   <div class="block">
     <div class="block-header">
       <div class="block-badge badge-l2">2</div>
-      <div class="block-info"><h3>ЖСТД 2</h3><p>Қысқа фраза немесе сөйлеммен жауап беру</p></div>
+      <div class="block-info"><h3>ЖСТД 2 деңгейі</h3><p>Қысқа фраза немесе сөйлеммен жауап беру</p></div>
     </div>
     <div class="q-list">
       <div class="q-item"><div class="q-body">Баланың жауабын кеңейтіңіз: "Ол ...", "Мен ... сұраймын", "Себебі ...", "Маған ... берші" сияқты сөйлем бастауын ұсыныңыз.</div></div>
@@ -397,15 +397,15 @@ function renderResult(result) {
       <div class="ins-label">Логопедке</div>
       <p>${escapeHtml(r.instructor)}</p>
     </div>
-    ${renderQuestionBlock('ЖСТД 1', 'Қысқа жауап, таңдау, көрсету', r.onr1, 'badge-l1')}
-    ${renderQuestionBlock('ЖСТД 2', 'Фраза, сөйлем, қысқа әңгіме', r.onr2, 'badge-l2')}
+    ${renderQuestionBlock('ЖСТД 1 деңгейі', 'Қысқа жауап, таңдау, көрсету', r.onr1, 'badge-l1')}
+    ${renderQuestionBlock('ЖСТД 2 деңгейі', 'Фраза, сөйлем, қысқа әңгіме', r.onr2, 'badge-l2')}
   `;
 }
 
 function renderQuestionBlock(title, subtitle, items, badgeClass) {
   return `<div class="block">
     <div class="block-header">
-      <div class="block-badge ${badgeClass}">${title.replace('ЖСТД ','')}</div>
+      <div class="block-badge ${badgeClass}">${title.replace('ЖСТД ','').replace(' деңгейі','')}</div>
       <div class="block-info"><h3>${title}</h3><p>${subtitle}</p></div>
     </div>
     <div class="q-list">${buildQuestions(items)}</div>
